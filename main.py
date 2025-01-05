@@ -6,8 +6,7 @@ import art
 import random
 import game_data
 
-#logo for intro
-print(art.logo)
+
 
 def Celebrity_pick():
     """pick two random celebrity from the game_data array"""
@@ -21,42 +20,58 @@ def compare(num1, num2):
     else:
         return "b"
 
+def format_data(celebrity):
+    account_name = celebrity["name"]
+    account_descr = celebrity["description"]
+    account_country = celebrity["country"]
+
+    return f"{account_name}, a {account_descr}, from {account_country}."
 
 
-def game(celeb_a, celeb_b, score):
+def game():
     """Take two celebrity as an input to compare and play the game"""
-    # print the first celebrity information from array, has to be random
-    if score != 0:
-        print(f"You're right! Current score: {score}.")
+    print(art.logo)
+    score = 0
+    keep_playing = True
+    celebrityA = Celebrity_pick()
 
-    celebrityA = celeb_a
-    print(f"Compare A: {celebrityA["name"]}, a {celebrityA["description"]}, from {celebrityA["country"]}.")
-    # print vs logo
-    print(art.vs)
 
-    # print the second celebrity information from array, has to be random
-    # what if the Celebrity_pick same person twice so we can do if else
-    celebrityB = celeb_b
-    while celebrityA == celebrityB:
+    while keep_playing:
+        if score != 0:
+            print(f"You're right! Current score: {score}.")
+
+        # print the first celebrity information from array, has to be random
+        print(f"Compare A: {format_data(celebrityA)}")
+
+        # print vs logo
+        print(art.vs)
+
+        # print the second celebrity information from array, has to be random
+        # what if the Celebrity_pick same person twice so we can do if else
         celebrityB = Celebrity_pick()
-    print(f"Compare B: {celebrityB["name"]}, a {celebrityB["description"]}, from {celebrityB["country"]}.")
+        while celebrityA == celebrityB:
+            celebrityB = Celebrity_pick()
+        print(f"Compare B: {format_data(celebrityB)}")
 
-    # take input from the user A or B
-    result = compare(celebrityA["follower_count"], celebrityB["follower_count"])
-    A_or_B = input("who has more followers? Type 'A' or 'B': ").lower()
+        # take input from the user A or B
+        result = compare(celebrityA["follower_count"], celebrityB["follower_count"])
+        guess = input("who has more followers? Type 'A' or 'B': ").lower()
+
+        print("\n" * 20)
+        print(art.logo)
+        if guess == result:
+            # compare if higher or lower if correct keep B and pick random from the array again
+            # increase the score for the player
+            celebrityA = celebrityB
+            score += 1
+        else:
+            keep_playing = False
+            print(f"Sorry, that's wrong. Final score: {score}")
 
 
-    if A_or_B == result:
-        # compare if higher or lower if correct keep B and pick random from the array again
-        # increase the score for the player
-        game(celebrityB, Celebrity_pick(), score + 1)
-    else:
-        print(f"Sorry, that's wrong. Final score: {score}")
 
 
-
-
-game(Celebrity_pick(), Celebrity_pick(), 0)
+game()
 
 
 
