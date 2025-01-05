@@ -50,6 +50,8 @@ def game(celeb_a, celeb_b, score):
         # compare if higher or lower if correct keep B and pick random from the array again
         # increase the score for the player
         game(celebrityB, Celebrity_pick(), score + 1)
+    else:
+        print(f"Sorry, that's wrong. Final score: {score}")
 
 
 
